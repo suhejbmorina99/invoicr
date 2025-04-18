@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dbe-invoicr:build:production"
+              "buildTarget": "dbe-invoicr:build:production"
             },
             "development": {
-              "browserTarget": "dbe-invoicr:build:development"
+              "buildTarget": "dbe-invoicr:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dbe-invoicr:build"
+            "buildTarget": "dbe-invoicr:build"
           }
         },
         "test": {
