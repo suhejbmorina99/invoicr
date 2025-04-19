@@ -5,7 +5,25 @@
     <title>Invoicr</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="assets/invoice.svg" />
+    <link
+      id="favicon"
+      rel="icon"
+      type="image/svg+xml"
+      href="assets/invoice-light.svg"
+    />
+    <script>
+      const setFavicon = (isDark) => {
+        const favicon = document.getElementById("favicon");
+        favicon.href = isDark
+          ? "assets/invoice-light.svg"
+          : "assets/invoice-dark.svg";
+      };
+
+      const darkModeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      setFavicon(darkModeMedia.matches);
+
+      darkModeMedia.addEventListener("change", (e) => setFavicon(e.matches));
+    </script>
   </head>
   <body>
     <app-root></app-root>
