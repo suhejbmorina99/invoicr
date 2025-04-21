@@ -2,15 +2,27 @@
   <div class="select-user">
     <p class="select-user-title">Select User:</p>
     <ul class="user-list">
-      <li class="user-item">
+      <li
+        class="user-item"
+        [class.selected]="selectedUser === 'waiter'"
+        (click)="onUserSelect('waiter')"
+      >
         <img class="user-image" src="assets/images/waiter.png" alt="waiter" />
         <!-- <span>Waiter</span> -->
       </li>
-      <li class="user-item">
+      <li
+        class="user-item"
+        [class.selected]="selectedUser === 'manager'"
+        (click)="onUserSelect('manager')"
+      >
         <img class="user-image" src="assets/images/manager.png" alt="manager" />
         <!-- <span>Manager</span> -->
       </li>
-      <li class="user-item">
+      <li
+        class="user-item"
+        [class.selected]="selectedUser === 'admin'"
+        (click)="onUserSelect('admin')"
+      >
         <img class="user-image" src="assets/images/admin.png" alt="admin" />
         <!-- <span>Admin</span> -->
       </li>
@@ -36,6 +48,9 @@
       <button class="pin-button" (click)="onPinButtonClick('7')">7</button>
       <button class="pin-button" (click)="onPinButtonClick('8')">8</button>
       <button class="pin-button" (click)="onPinButtonClick('9')">9</button>
+      <button class="pin-button clear-button" (click)="clearPin()">
+        <img src="assets/icons/undo.svg" alt="undo" />
+      </button>
       <button class="pin-button zero-button" (click)="onPinButtonClick('0')">
         0
       </button>

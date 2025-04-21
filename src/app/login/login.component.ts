@@ -10,12 +10,23 @@ export class LoginComponent {
   pin: string = '';
   maxPinLength = 4;
   dots: boolean[] = Array(this.maxPinLength).fill(false);
+  selectedUser: string | null = null;
+
+  onUserSelect(user: string) {
+    this.selectedUser = user;
+    this.clearPin();
+  }
 
   onPinButtonClick(number: string) {
-    if (this.pin.length < this.maxPinLength) {
+    if (this.selectedUser && this.pin.length < this.maxPinLength) {
       this.pin += number;
       this.updateDots();
     }
+  }
+
+  clearPin() {
+    this.pin = '';
+    this.updateDots();
   }
 
   private updateDots() {
