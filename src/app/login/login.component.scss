@@ -11,34 +11,33 @@
   height: 100vh;
   width: 100vw;
 
-  .title {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-
-    .form-group {
-      margin-bottom: 1rem;
-
-      input {
-        padding: 10px;
-        border-radius: 5px;
-        border: 2px solid #ccc;
-
-        &:focus-visible {
-          outline: none;
+  .select-user {
+    width: 100%;
+    .select-user-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .user-list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      .user-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 30px;
+        border: 1px solid #000000;
+        border-radius: 10px;
+        padding: 25px;
+        .user-image {
+          width: 80px;
+          height: 80px;
         }
       }
-    }
-
-    .submit {
-      padding: 5px;
-      border-radius: 5px;
-      border: 2px solid #000000;
-      cursor: pointer;
     }
   }
 }
