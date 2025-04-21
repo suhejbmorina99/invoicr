@@ -16,4 +16,29 @@
       </li>
     </ul>
   </div>
+  <div class="enter-pin">
+    <p class="enter-pin-title">Enter PIN:</p>
+    <div class="pin-display">
+      <div class="pin-dots">
+        <span class="dot" [class.filled]="dots[0]"></span>
+        <span class="dot" [class.filled]="dots[1]"></span>
+        <span class="dot" [class.filled]="dots[2]"></span>
+        <span class="dot" [class.filled]="dots[3]"></span>
+      </div>
+    </div>
+    <div class="pin-pad">
+      <button class="pin-button" (click)="onPinButtonClick('1')">1</button>
+      <button class="pin-button" (click)="onPinButtonClick('2')">2</button>
+      <button class="pin-button" (click)="onPinButtonClick('3')">3</button>
+      <button class="pin-button" (click)="onPinButtonClick('4')">4</button>
+      <button class="pin-button" (click)="onPinButtonClick('5')">5</button>
+      <button class="pin-button" (click)="onPinButtonClick('6')">6</button>
+      <button class="pin-button" (click)="onPinButtonClick('7')">7</button>
+      <button class="pin-button" (click)="onPinButtonClick('8')">8</button>
+      <button class="pin-button" (click)="onPinButtonClick('9')">9</button>
+      <button class="pin-button zero-button" (click)="onPinButtonClick('0')">
+        0
+      </button>
+    </div>
+  </div>
 </div>

@@ -40,4 +40,62 @@
       }
     }
   }
+  .enter-pin {
+    width: 100%;
+    margin-top: 40px;
+    .enter-pin-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    .pin-display {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      .pin-dots {
+        display: flex;
+        gap: 20px;
+        .dot {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 2px solid #000;
+          background: transparent;
+          transition: background-color 0.3s ease;
+          &.filled {
+            background: #000;
+          }
+        }
+      }
+    }
+    .pin-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 300px;
+      margin: 0 auto;
+      .pin-button {
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 2px solid #000;
+        background: transparent;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover {
+          background: #000;
+          color: white;
+        }
+        &:active {
+          transform: scale(0.95);
+        }
+        &.zero-button {
+          grid-column: 2;
+        }
+      }
+    }
+  }
 }
