@@ -1,1 +1,36 @@
-<p>tables works!</p>
+<div class="tables-container">
+  <h1 class="tables-title">Tables</h1>
+  <div class="tables-grid">
+    <!-- 2 Person Tables -->
+    <div class="table-item" *ngFor="let table of twoPersonTables">
+      <div class="table-content">
+        <span class="table-number">Table {{table.number}}</span>
+        <span class="table-capacity">2 Persons</span>
+      </div>
+    </div>
+
+    <!-- 3 Person Tables -->
+    <div class="table-item" *ngFor="let table of threePersonTables">
+      <div class="table-content">
+        <span class="table-number">Table {{table.number}}</span>
+        <span class="table-capacity">3 Persons</span>
+      </div>
+    </div>
+
+    <!-- 4 Person Tables -->
+    <div class="table-item" *ngFor="let table of fourPersonTables">
+      <div class="table-content">
+        <span class="table-number">Table {{table.number}}</span>
+        <span class="table-capacity">4 Persons</span>
+      </div>
+    </div>
+
+    <!-- 6 Person Tables -->
+    <div class="table-item" *ngFor="let table of sixPersonTables">
+      <div class="table-content">
+        <span class="table-number">Table {{table.number}}</span>
+        <span class="table-capacity">6 Persons</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -85,6 +85,12 @@
         }
       }
     }
+    .error-message {
+      color: #ff4444;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
     .pin-pad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

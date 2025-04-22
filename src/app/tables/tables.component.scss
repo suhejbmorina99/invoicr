@@ -1,0 +1,51 @@
+.tables-container {
+  padding: 20px;
+  height: 100vh;
+  background-color: #f5f5f5;
+
+  .tables-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .table-item {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .table-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        .table-number {
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .table-capacity {
+          font-size: 1rem;
+          color: #666;
+        }
+      }
+    }
+  }
+}
