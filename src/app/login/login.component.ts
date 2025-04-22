@@ -31,7 +31,9 @@ export class LoginComponent {
 
       // If pin is complete, try to login
       if (this.pin.length === this.maxPinLength) {
-        this.login();
+        setTimeout(() => {
+          this.login();
+        }, 300); // Small delay to show the last dot
       }
     }
   }
@@ -46,8 +48,10 @@ export class LoginComponent {
     if (this.selectedUser && this.pin) {
       const success = this.authService.login(this.selectedUser, this.pin);
       if (!success) {
-        this.errorMessage = 'Invalid PIN';
-        this.clearPin();
+        this.errorMessage = 'Invalid PIN. Please try again.';
+        setTimeout(() => {
+          this.clearPin();
+        }, 2000); // Clear after 2 seconds
       }
     }
   }

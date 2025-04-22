@@ -38,7 +38,9 @@
         <span class="dot" [class.filled]="dots[3]"></span>
       </div>
     </div>
-    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <div class="error-container" *ngIf="errorMessage">
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
     <div class="pin-pad">
       <button class="pin-button" (click)="onPinButtonClick('1')">1</button>
       <button class="pin-button" (click)="onPinButtonClick('2')">2</button>
