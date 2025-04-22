@@ -86,57 +86,90 @@
 
       &.available {
         border: 2px solid #4CAF50;
+        .table-svg, .chair {
+          color: #4CAF50;
+        }
       }
 
       &.reserved {
         border: 2px solid #2196F3;
+        .table-svg, .chair {
+          color: #2196F3;
+        }
       }
 
       &.occupied {
         border: 2px solid #FF5722;
+        .table-svg, .chair {
+          color: #FF5722;
+        }
       }
 
       .table-content {
-        text-align: center;
-        margin-bottom: 10px;
-
-        .table-number {
-          display: block;
-          font-weight: 500;
-          margin-bottom: 5px;
-        }
-
-        .capacity {
-          font-size: 0.9rem;
-          color: #666;
-        }
-      }
-
-      .chairs {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 10px;
 
-        .chair-row {
+        .chairs-row {
           display: flex;
           justify-content: center;
-          gap: 10px;
+          gap: 15px;
+          width: 100%;
+
+          &.top {
+            margin-bottom: -10px;
+            .chair {
+              transform: rotate(180deg);
+            }
+          }
+
+          &.bottom {
+            margin-top: -10px;
+          }
 
           .chair {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #666;
+            width: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+          }
+        }
+
+        .table-svg {
+          width: 100%;
+          height: 60px;
+          transition: all 0.3s ease;
+        }
+
+        .table-info {
+          text-align: center;
+          margin-top: 10px;
+
+          .table-number {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+          }
+
+          .capacity {
+            font-size: 0.9rem;
+            color: #666;
           }
         }
       }
 
       &.two-seater {
         width: 120px;
+        .table-svg {
+          height: 50px;
+        }
       }
 
       &.four-seater {
         width: 150px;
+        .table-svg {
+          height: 55px;
+        }
       }
 
       &.six-seater {
@@ -145,6 +178,11 @@
 
       &.eight-seater {
         width: 220px;
+      }
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
     }
   }

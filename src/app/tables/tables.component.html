@@ -30,19 +30,23 @@
            [class.occupied]="getTableStatus(1) === 'occupied'"
            (click)="onTableClick(1)">
         <div class="table-content">
-          <span class="table-number">Table #1</span>
-          <span class="capacity">6</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chairs -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
           </div>
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chairs -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #1</span>
+            <span class="capacity">6</span>
           </div>
         </div>
       </div>
@@ -52,13 +56,19 @@
            [class.occupied]="getTableStatus(2) === 'occupied'"
            (click)="onTableClick(2)">
         <div class="table-content">
-          <span class="table-number">Table #2</span>
-          <span class="capacity">2</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chair -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chair -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #2</span>
+            <span class="capacity">2</span>
           </div>
         </div>
       </div>
@@ -68,13 +78,19 @@
            [class.occupied]="getTableStatus(3) === 'occupied'"
            (click)="onTableClick(3)">
         <div class="table-content">
-          <span class="table-number">Table #3</span>
-          <span class="capacity">2</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chair -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chair -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #3</span>
+            <span class="capacity">2</span>
           </div>
         </div>
       </div>
@@ -87,17 +103,21 @@
            [class.occupied]="getTableStatus(4) === 'occupied'"
            (click)="onTableClick(4)">
         <div class="table-content">
-          <span class="table-number">Table #4</span>
-          <span class="capacity">4</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chairs -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
           </div>
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chairs -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #4</span>
+            <span class="capacity">4</span>
           </div>
         </div>
       </div>
@@ -107,19 +127,23 @@
            [class.occupied]="getTableStatus(5) === 'occupied'"
            (click)="onTableClick(5)">
         <div class="table-content">
-          <span class="table-number">Table #5</span>
-          <span class="capacity">6</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chairs -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
           </div>
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chairs -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #5</span>
+            <span class="capacity">6</span>
           </div>
         </div>
       </div>
@@ -129,21 +153,25 @@
            [class.occupied]="getTableStatus(6) === 'occupied'"
            (click)="onTableClick(6)">
         <div class="table-content">
-          <span class="table-number">Table #6</span>
-          <span class="capacity">8</span>
-        </div>
-        <div class="chairs">
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Top Chairs -->
+          <div class="chairs-row top">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
           </div>
-          <div class="chair-row">
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
-            <div class="chair"></div>
+          <!-- Table -->
+          <img src="assets/icons/table.svg" class="table-svg" alt="table">
+          <!-- Bottom Chairs -->
+          <div class="chairs-row bottom">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+            <img src="assets/icons/chair.svg" class="chair" alt="chair">
+          </div>
+          <div class="table-info">
+            <span class="table-number">Table #6</span>
+            <span class="capacity">8</span>
           </div>
         </div>
       </div>
