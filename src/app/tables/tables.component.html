@@ -1,180 +1,28 @@
-<div class="tables-container">
-  <div class="header">
-    <h1 class="title">Manage Tables</h1>
-    <div class="status-indicators">
-      <div class="status-item">
-        <span class="status-dot available"></span>
-        <span>Available</span>
+<div class="floor-plan-container">
+  <div class="controls">
+    <div class="table-form">
+      <h3>Add New Table</h3>
+      <div class="form-group">
+        <label for="capacity">Number of Seats (1-8):</label>
+        <input type="number" 
+               id="capacity" 
+               [(ngModel)]="newTable.capacity" 
+               min="1" 
+               max="8" 
+               step="1"
+               (keypress)="validateKeyPress($event)"
+               (input)="validateCapacity($event)">
       </div>
-      <div class="status-item">
-        <span class="status-dot reserved"></span>
-        <span>Reserved</span>
-      </div>
-      <div class="status-item">
-        <span class="status-dot occupied"></span>
-        <span>On Dine</span>
-      </div>
+      <button (click)="addTable()">Add Table</button>
     </div>
-    <div class="area-selector">
-      <button class="area-button active">Main Dining</button>
-      <button class="area-button">Terrace</button>
-      <button class="area-button">Outdoor</button>
+    
+    <div class="layout-controls">
+      <button (click)="saveLayout()">Save Layout</button>
+      <button (click)="clearLayout()">Clear All</button>
     </div>
   </div>
 
-  <div class="tables-layout">
-    <!-- Row 1 -->
-    <div class="table-row">
-      <div class="table six-seater" [class.available]="getTableStatus(1) === 'available'"
-           [class.reserved]="getTableStatus(1) === 'reserved'"
-           [class.occupied]="getTableStatus(1) === 'occupied'"
-           (click)="onTableClick(1)">
-        <div class="table-content">
-          <!-- Top Chairs -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chairs -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #1</span>
-            <span class="capacity">6</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="table two-seater" [class.available]="getTableStatus(2) === 'available'"
-           [class.reserved]="getTableStatus(2) === 'reserved'"
-           [class.occupied]="getTableStatus(2) === 'occupied'"
-           (click)="onTableClick(2)">
-        <div class="table-content">
-          <!-- Top Chair -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chair -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #2</span>
-            <span class="capacity">2</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="table two-seater" [class.available]="getTableStatus(3) === 'available'"
-           [class.reserved]="getTableStatus(3) === 'reserved'"
-           [class.occupied]="getTableStatus(3) === 'occupied'"
-           (click)="onTableClick(3)">
-        <div class="table-content">
-          <!-- Top Chair -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chair -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #3</span>
-            <span class="capacity">2</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 2 -->
-    <div class="table-row">
-      <div class="table four-seater" [class.available]="getTableStatus(4) === 'available'"
-           [class.reserved]="getTableStatus(4) === 'reserved'"
-           [class.occupied]="getTableStatus(4) === 'occupied'"
-           (click)="onTableClick(4)">
-        <div class="table-content">
-          <!-- Top Chairs -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chairs -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #4</span>
-            <span class="capacity">4</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="table six-seater" [class.available]="getTableStatus(5) === 'available'"
-           [class.reserved]="getTableStatus(5) === 'reserved'"
-           [class.occupied]="getTableStatus(5) === 'occupied'"
-           (click)="onTableClick(5)">
-        <div class="table-content">
-          <!-- Top Chairs -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chairs -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #5</span>
-            <span class="capacity">6</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="table eight-seater" [class.available]="getTableStatus(6) === 'available'"
-           [class.reserved]="getTableStatus(6) === 'reserved'"
-           [class.occupied]="getTableStatus(6) === 'occupied'"
-           (click)="onTableClick(6)">
-        <div class="table-content">
-          <!-- Top Chairs -->
-          <div class="chairs-row top">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <!-- Table -->
-          <img src="assets/icons/table.svg" class="table-svg" alt="table">
-          <!-- Bottom Chairs -->
-          <div class="chairs-row bottom">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-            <img src="assets/icons/chair.svg" class="chair" alt="chair">
-          </div>
-          <div class="table-info">
-            <span class="table-number">Table #6</span>
-            <span class="capacity">8</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="canvas-container">
+    <canvas #canvas></canvas>
   </div>
 </div>
