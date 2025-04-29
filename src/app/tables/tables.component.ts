@@ -1,8 +1,6 @@
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-type TableStatus = 'available' | 'reserved' | 'occupied';
 
 interface Position {
   x: number;
@@ -12,13 +10,10 @@ interface Position {
 interface Table {
   id: number;
   capacity: number;
-  status: TableStatus;
   position: Position;
   width: number;
   height: number;
   rotation: number;
-  isDragging?: boolean;
-  isRotating?: boolean;
 }
 
 @Component({
@@ -28,7 +23,7 @@ interface Table {
   templateUrl: './tables.component.html',
   styleUrl: './tables.component.scss'
 })
-export class TablesComponent implements AfterViewInit {
+export class TablesComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
   private tableImage: HTMLImageElement;
@@ -49,32 +44,28 @@ export class TablesComponent implements AfterViewInit {
   dragStartY = 0;
   rotationStart = 0;
 
+  private resizeObserver: ResizeObserver;
+
   validateKeyPress(event: KeyboardEvent): boolean {
-    // Allow backspace and delete
     if (event.key === 'Backspace' || event.key === 'Delete') {
       return true;
     }
-    // Only allow numbers 1-8
     return event.charCode >= 49 && event.charCode <= 56;
   }
 
   validateCapacity(event: Event): void {
     const input = event.target as HTMLInputElement;
     
-    // Allow empty input
     if (input.value === '') {
       return;
     }
 
-    // Parse the input value
     let value = parseInt(input.value);
     
-    // If it's not a valid number, don't do anything
     if (isNaN(value)) {
       return;
     }
 
-    // Ensure the value is between 1 and 8
     if (value > 8) {
       value = 8;
       input.value = '8';
@@ -111,22 +102,31 @@ export class TablesComponent implements AfterViewInit {
     this.tableImage.src = 'assets/icons/table.svg';
     this.chairImage.src = 'assets/icons/chair.svg';
     this.rotateImage.src = 'assets/icons/rotate.svg';
+
+    // Initialize ResizeObserver
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateCanvasSize();
+    });
   }
 
   private getTableDimensions(capacity: number): { width: number; height: number } {
     if (capacity <= 2) return { width: 100, height: 120 };
     if (capacity <= 3) return { width: 120, height: 140 };
     if (capacity <= 5) return { width: 120, height: 160 };
-    return { width: 160, height: 180 }; // 6-8 seats
+    return { width: 160, height: 180 };
   }
 
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
     
-    canvas.width = 800;
-    canvas.height = 600;
+    // Start observing the canvas container
+    const container = canvas.parentElement;
+    if (container) {
+      this.resizeObserver.observe(container);
+    }
     
+    this.updateCanvasSize();
     this.loadLayout();
     if (this.imagesLoaded === 3) this.draw();
     
@@ -135,11 +135,30 @@ export class TablesComponent implements AfterViewInit {
     canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
   }
 
+  ngOnDestroy() {
+    // Clean up the ResizeObserver
+    this.resizeObserver.disconnect();
+  }
+
+  private updateCanvasSize() {
+    const canvas = this.canvasRef.nativeElement;
+    const container = canvas.parentElement;
+    if (!container) return;
+
+    // Get the container's size
+    const rect = container.getBoundingClientRect();
+    
+    // Set the canvas size to match the container
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+
+    // Redraw the canvas with the new size
+    this.draw();
+  }
+
   private drawRotateHandle(table: Table) {
-    // Only draw handle if table is selected
     if (this.selectedTable !== table) return;
 
-    // Position handle slightly away from table edge
     const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE/2;
     const handleY = table.position.y - this.ROTATE_HANDLE_SIZE/2;
     
@@ -157,7 +176,6 @@ export class TablesComponent implements AfterViewInit {
   }
 
   private isOverRotateHandle(table: Table, x: number, y: number): boolean {
-    // Allow checking rotation handle even if table isn't currently selected
     const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE/2;
     const handleY = table.position.y - this.ROTATE_HANDLE_SIZE/2;
     
@@ -171,7 +189,6 @@ export class TablesComponent implements AfterViewInit {
     const table: Table = {
       id: this.tables.length + 1,
       capacity: capacity,
-      status: 'available',
       position: { x: 50, y: 50 },
       rotation: 0,
       ...dimensions
@@ -188,22 +205,11 @@ export class TablesComponent implements AfterViewInit {
     const chairSize = 24;
     const chairMargin = 5;
     
-    const borderColor = this.getTableBorderColor(table.status);
-    
-    const tableRect = {
-      x: x + chairSize + chairMargin,
-      y: y + chairSize + chairMargin,
-      width: width - (chairSize + chairMargin) * 2,
-      height: height - (chairSize + chairMargin) * 2
-    };
-
-    // Draw table with rotation
     this.ctx.save();
     this.ctx.translate(x + width/2, y + height/2);
     this.ctx.rotate(table.rotation);
     this.ctx.translate(-width/2, -height/2);
 
-    // Draw table background in black
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(
       chairSize + chairMargin,
@@ -212,8 +218,7 @@ export class TablesComponent implements AfterViewInit {
       height - (chairSize + chairMargin) * 2
     );
     
-    // Draw the table border
-    this.ctx.strokeStyle = borderColor;
+    this.ctx.strokeStyle = '#4CAF50';
     this.ctx.lineWidth = 2;
     this.ctx.strokeRect(
       chairSize + chairMargin,
@@ -222,11 +227,9 @@ export class TablesComponent implements AfterViewInit {
       height - (chairSize + chairMargin) * 2
     );
 
-    // Draw chairs based on capacity
     const chairsPerSide = Math.ceil(table.capacity / 2);
     const chairSpacing = (width - (chairSize + chairMargin) * 2) / (chairsPerSide + 1);
     
-    // Draw top chairs
     for (let i = 0; i < chairsPerSide; i++) {
       const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize/2;
       this.ctx.save();
@@ -242,7 +245,6 @@ export class TablesComponent implements AfterViewInit {
       this.ctx.restore();
     }
     
-    // Draw bottom chairs
     for (let i = 0; i < table.capacity - chairsPerSide; i++) {
       const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize/2;
       this.ctx.drawImage(
@@ -256,7 +258,6 @@ export class TablesComponent implements AfterViewInit {
     
     this.ctx.restore();
 
-    // Draw rotation handle
     this.drawRotateHandle(table);
   }
 
@@ -264,20 +265,10 @@ export class TablesComponent implements AfterViewInit {
     const canvas = this.canvasRef.nativeElement;
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw background
     this.ctx.fillStyle = '#f5f5f5';
     this.ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw tables
     this.tables.forEach(table => this.drawTable(table));
-  }
-
-  private getTableBorderColor(status: TableStatus): string {
-    switch (status) {
-      case 'available': return '#4CAF50';
-      case 'reserved': return '#FFC107';
-      case 'occupied': return '#f44336';
-    }
   }
 
   private onMouseDown(event: MouseEvent) {
@@ -285,7 +276,6 @@ export class TablesComponent implements AfterViewInit {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     
-    // First check if we're clicking any rotation handle
     for (const table of this.tables) {
       if (this.isOverRotateHandle(table, x, y)) {
         this.selectedTable = table;
@@ -298,7 +288,6 @@ export class TablesComponent implements AfterViewInit {
       }
     }
 
-    // If not on rotation handle, check for table selection/dragging
     const clickedTable = this.tables.find(table => 
       x >= table.position.x &&
       x <= table.position.x + table.width &&
@@ -311,12 +300,11 @@ export class TablesComponent implements AfterViewInit {
       this.isDragging = true;
       this.dragStartX = x - clickedTable.position.x;
       this.dragStartY = y - clickedTable.position.y;
-      this.draw(); // Redraw to show rotation handle
+      this.draw();
     } else {
-      // Only deselect if we didn't click a rotation handle or table
       this.selectedTable = null;
       this.isDragging = false;
-      this.draw(); // Redraw to hide rotation handle
+      this.draw();
     }
   }
 
@@ -340,7 +328,6 @@ export class TablesComponent implements AfterViewInit {
       this.selectedTable.position.x = x - this.dragStartX;
       this.selectedTable.position.y = y - this.dragStartY;
 
-      // Keep table within canvas bounds
       this.selectedTable.position.x = Math.max(0, Math.min(this.selectedTable.position.x, 
         this.canvasRef.nativeElement.width - this.selectedTable.width));
       this.selectedTable.position.y = Math.max(0, Math.min(this.selectedTable.position.y, 
@@ -353,14 +340,6 @@ export class TablesComponent implements AfterViewInit {
   private onMouseUp() {
     this.isDragging = false;
     this.isRotating = false;
-    this.selectedTable = null;
-  }
-
-  onTableClick(table: Table) {
-    if (table.status === 'available') table.status = 'reserved';
-    else if (table.status === 'reserved') table.status = 'occupied';
-    else table.status = 'available';
-    this.draw();
   }
 
   saveLayout() {
