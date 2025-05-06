@@ -1,6 +1,10 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SaveLayoutDialogComponent } from './save-layout-dialog/save-layout-dialog.component';
+import { SaveSuccessSnackbarComponent } from '../shared/save-success-snackbar/save-success-snackbar.component';
 
 interface Position {
   x: number;
@@ -79,7 +83,10 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  constructor() {
+  constructor(
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
     this.tableImage = new Image();
     this.chairImage = new Image();
     this.rotateImage = new Image();
@@ -343,16 +350,33 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   }
 
   saveLayout() {
-    localStorage.setItem('tableLayout', JSON.stringify(this.tables));
+    const dialogRef = this.dialog.open(SaveLayoutDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        localStorage.setItem('tableLayout', JSON.stringify(this.tables));
+        this.showSaveSuccess();
+      }
+    });
+  }
+
+  private showSaveSuccess(): void {
+    this.snackBar.openFromComponent(SaveSuccessSnackbarComponent, {
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      panelClass: 'success-snackbar'
+    });
   }
 
   loadLayout() {
     const savedLayout = localStorage.getItem('tableLayout');
     if (savedLayout) {
       this.tables = JSON.parse(savedLayout);
-    }
-    if (this.ctx) {
       this.draw();
+      console.log('Layout loaded successfully');
     }
   }
 
