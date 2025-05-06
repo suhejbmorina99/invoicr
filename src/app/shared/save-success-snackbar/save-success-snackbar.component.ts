@@ -1,39 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-save-success-snackbar',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
-  template: `
-    <div class="success-container" [@slideInOut]>
-      <mat-icon class="success-icon" [@scaleIn]>check_circle</mat-icon>
-      <span class="success-message">Layout saved successfully!</span>
-    </div>
-  `,
-  styles: [`
-    .success-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .success-icon {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
-    }
-    .success-message {
-      font-size: 16px;
-      font-weight: 500;
-    }
-  `],
+  imports: [CommonModule],
+  templateUrl: './save-success-snackbar.component.html',
+  styleUrls: ['./save-success-snackbar.component.scss'],
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
