@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 interface User {
-  type: 'waiter' | 'manager' | 'admin';
+  type: string;
   pin: string;
 }
 
@@ -16,14 +17,28 @@ export class AuthService {
     { type: 'admin', pin: '0000' }
   ];
 
-  private currentUser: User | null = null;
+  private currentUser = new BehaviorSubject<User | null>(null);
+  private readonly STORAGE_KEY = 'currentUser';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    // Check for existing session on service initialization
+    this.checkExistingSession();
+  }
+
+  private checkExistingSession(): void {
+    const savedUser = localStorage.getItem(this.STORAGE_KEY);
+    if (savedUser) {
+      this.currentUser.next(JSON.parse(savedUser));
+    } else {
+      this.router.navigate(['/login']);
+    }
+  }
 
   login(userType: string, pin: string): boolean {
     const user = this.users.find(u => u.type === userType && u.pin === pin);
     if (user) {
-      this.currentUser = user;
+      this.currentUser.next(user);
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(user));
       this.router.navigate(['/tables']);
       return true;
     }
@@ -31,15 +46,16 @@ export class AuthService {
   }
 
   logout(): void {
-    this.currentUser = null;
+    this.currentUser.next(null);
+    localStorage.removeItem(this.STORAGE_KEY);
     this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser !== null;
+    return this.currentUser.value !== null;
   }
 
   getCurrentUser(): User | null {
-    return this.currentUser;
+    return this.currentUser.value;
   }
 } 

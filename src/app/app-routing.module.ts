@@ -16,10 +16,17 @@ const routes: Routes = [
       import('./tables/tables.component').then((m) => m.TablesComponent),
     canActivate: [() => inject(AuthService).isAuthenticated()],
   },
+  // Catch all route for any unknown paths
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    useHash: false,
+    enableTracing: false,
+    scrollPositionRestoration: 'enabled',
+    initialNavigation: 'enabledBlocking'
+  })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
