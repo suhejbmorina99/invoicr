@@ -16,7 +16,6 @@ const routes: Routes = [
       import('./tables/tables.component').then((m) => m.TablesComponent),
     canActivate: [() => inject(AuthService).isAuthenticated()],
   },
-  // Catch all route for any unknown paths
   { path: '**', redirectTo: '/login' }
 ];
 
