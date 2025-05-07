@@ -22,8 +22,12 @@
     </div>
 
     <div class="redo-undo-controls">
-      <div class="do-buttons" (click)="undo()"><img src="../../assets/icons/undo.png" alt=""></div>
-      <div class="do-buttons" (click)="redo()"><img src="../../assets/icons/redo.png" alt=""></div>
+      <div class="do-buttons" [class.disabled]="!canUndo" (click)="undo()">
+        <img src="../../assets/icons/undo.png" alt="undo">
+      </div>
+      <div class="do-buttons" [class.disabled]="!canRedo" (click)="redo()">
+        <img src="../../assets/icons/redo.png" alt="redo">
+      </div>
     </div>
   </div>
 

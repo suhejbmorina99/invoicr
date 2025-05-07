@@ -383,6 +383,17 @@
       width: 50%;
       border: none;
       border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover:not(.disabled) {
+        background-color: #e0e0e0;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
   }
 }

@@ -48,6 +48,12 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   dragStartY = 0;
   rotationStart = 0;
 
+  // Add history tracking
+  private history: Table[][] = [];
+  private currentHistoryIndex = -1;
+  public canUndo = false;
+  public canRedo = false;
+
   private resizeObserver: ResizeObserver;
 
   validateKeyPress(event: KeyboardEvent): boolean {
@@ -190,6 +196,39 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
            y >= handleY && y <= handleY + this.ROTATE_HANDLE_SIZE;
   }
 
+  private saveToHistory() {
+    // Remove any future history if we're not at the end
+    this.history = this.history.slice(0, this.currentHistoryIndex + 1);
+    
+    // Add current state to history
+    this.history.push(JSON.parse(JSON.stringify(this.tables)));
+    this.currentHistoryIndex++;
+    
+    // Update undo/redo states
+    this.canUndo = this.currentHistoryIndex > 0;
+    this.canRedo = false;
+  }
+
+  undo() {
+    if (this.canUndo) {
+      this.currentHistoryIndex--;
+      this.tables = JSON.parse(JSON.stringify(this.history[this.currentHistoryIndex]));
+      this.canUndo = this.currentHistoryIndex > 0;
+      this.canRedo = true;
+      this.draw();
+    }
+  }
+
+  redo() {
+    if (this.canRedo) {
+      this.currentHistoryIndex++;
+      this.tables = JSON.parse(JSON.stringify(this.history[this.currentHistoryIndex]));
+      this.canUndo = true;
+      this.canRedo = this.currentHistoryIndex < this.history.length - 1;
+      this.draw();
+    }
+  }
+
   addTable() {
     const capacity = Math.min(Math.max(1, Math.floor(this.newTable.capacity)), 8);
     const dimensions = this.getTableDimensions(capacity);
@@ -202,6 +241,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     };
     
     this.tables.push(table);
+    this.saveToHistory();
     this.draw();
   }
 
@@ -345,6 +385,9 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   }
 
   private onMouseUp() {
+    if (this.isDragging || this.isRotating) {
+      this.saveToHistory();
+    }
     this.isDragging = false;
     this.isRotating = false;
   }
@@ -382,10 +425,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 
   clearLayout() {
     this.tables = [];
+    this.saveToHistory();
     this.draw();
   }
-
-  undo() {}
-
-  redo() {}
 }
