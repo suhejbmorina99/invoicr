@@ -384,4 +384,8 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     this.tables = [];
     this.draw();
   }
+
+  undo() {}
+
+  redo() {}
 }

@@ -20,6 +20,11 @@
       <button (click)="saveLayout()">Save Layout</button>
       <button (click)="clearLayout()">Clear All</button>
     </div>
+
+    <div class="redo-undo-controls">
+      <div class="do-buttons" (click)="undo()"><img src="../../assets/icons/undo.png" alt=""></div>
+      <div class="do-buttons" (click)="redo()"><img src="../../assets/icons/redo.png" alt=""></div>
+    </div>
   </div>
 
   <div class="canvas-container">
