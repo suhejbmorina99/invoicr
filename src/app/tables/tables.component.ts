@@ -409,6 +409,8 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
         this.showSaveSuccess();
       }
     });
+    this.canUndo = false;
+    this.canRedo = false;
   }
 
   private showSaveSuccess(): void {
