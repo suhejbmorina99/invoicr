@@ -34,12 +34,12 @@
       letter-spacing: 0.5px;
   
       &[color="primary"] {
-        background-color: #4CAF50;
+        background-color: #FF4D4D;
         color: white;
   
-        &:hover {
-          background-color: darken(#4CAF50, 5%);
-        }
+        // &:hover {
+        //   background-color: darken(#4CAF50, 5%);
+        // }
       }
   
       &:not([color="primary"]) {
