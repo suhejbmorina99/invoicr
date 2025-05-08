@@ -35,12 +35,12 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   private rotateImage: HTMLImageElement;
   private imagesLoaded = 0;
   private readonly ROTATE_HANDLE_SIZE = 20;
-  
+
   tables: Table[] = [];
   newTable = {
     capacity: 4
   };
-  
+
   selectedTable: Table | null = null;
   isDragging = false;
   isRotating = false;
@@ -65,13 +65,13 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 
   validateCapacity(event: Event): void {
     const input = event.target as HTMLInputElement;
-    
+
     if (input.value === '') {
       return;
     }
 
     let value = parseInt(input.value);
-    
+
     if (isNaN(value)) {
       return;
     }
@@ -96,12 +96,12 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     this.tableImage = new Image();
     this.chairImage = new Image();
     this.rotateImage = new Image();
-    
+
     this.tableImage.onload = () => {
       this.imagesLoaded++;
       if (this.imagesLoaded === 3) this.draw();
     };
-    
+
     this.chairImage.onload = () => {
       this.imagesLoaded++;
       if (this.imagesLoaded === 3) this.draw();
@@ -111,7 +111,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
       this.imagesLoaded++;
       if (this.imagesLoaded === 3) this.draw();
     };
-    
+
     this.tableImage.src = 'assets/icons/table.svg';
     this.chairImage.src = 'assets/icons/chair.svg';
     this.rotateImage.src = 'assets/icons/rotate.svg';
@@ -132,17 +132,20 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
-    
-    // Start observing the canvas container
+
     const container = canvas.parentElement;
     if (container) {
       this.resizeObserver.observe(container);
     }
-    
+
     this.updateCanvasSize();
     this.loadLayout();
+
+    // ✅ Save the initial (possibly empty or loaded) state
+    this.saveToHistory();
+
     if (this.imagesLoaded === 3) this.draw();
-    
+
     canvas.addEventListener('mousedown', this.onMouseDown.bind(this));
     canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
     canvas.addEventListener('mouseup', this.onMouseUp.bind(this));
@@ -160,7 +163,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 
     // Get the container's size
     const rect = container.getBoundingClientRect();
-    
+
     // Set the canvas size to match the container
     canvas.width = rect.width;
     canvas.height = rect.height;
@@ -172,16 +175,16 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   private drawRotateHandle(table: Table) {
     if (this.selectedTable !== table) return;
 
-    const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE/2;
-    const handleY = table.position.y - this.ROTATE_HANDLE_SIZE/2;
-    
+    const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE / 2;
+    const handleY = table.position.y - this.ROTATE_HANDLE_SIZE / 2;
+
     this.ctx.save();
-    this.ctx.translate(handleX + this.ROTATE_HANDLE_SIZE/2, handleY + this.ROTATE_HANDLE_SIZE/2);
+    this.ctx.translate(handleX + this.ROTATE_HANDLE_SIZE / 2, handleY + this.ROTATE_HANDLE_SIZE / 2);
     this.ctx.rotate(table.rotation);
     this.ctx.drawImage(
       this.rotateImage,
-      -this.ROTATE_HANDLE_SIZE/2,
-      -this.ROTATE_HANDLE_SIZE/2,
+      -this.ROTATE_HANDLE_SIZE / 2,
+      -this.ROTATE_HANDLE_SIZE / 2,
       this.ROTATE_HANDLE_SIZE,
       this.ROTATE_HANDLE_SIZE
     );
@@ -189,22 +192,25 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   }
 
   private isOverRotateHandle(table: Table, x: number, y: number): boolean {
-    const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE/2;
-    const handleY = table.position.y - this.ROTATE_HANDLE_SIZE/2;
-    
+    const handleX = table.position.x + table.width - this.ROTATE_HANDLE_SIZE / 2;
+    const handleY = table.position.y - this.ROTATE_HANDLE_SIZE / 2;
+
     return x >= handleX && x <= handleX + this.ROTATE_HANDLE_SIZE &&
-           y >= handleY && y <= handleY + this.ROTATE_HANDLE_SIZE;
+      y >= handleY && y <= handleY + this.ROTATE_HANDLE_SIZE;
   }
 
   private saveToHistory() {
-    // Remove any future history if we're not at the end
+    const newState = JSON.stringify(this.tables);
+    const lastState = this.history[this.currentHistoryIndex]
+      ? JSON.stringify(this.history[this.currentHistoryIndex])
+      : null;
+
+    if (newState === lastState) return;
+
     this.history = this.history.slice(0, this.currentHistoryIndex + 1);
-    
-    // Add current state to history
-    this.history.push(JSON.parse(JSON.stringify(this.tables)));
+    this.history.push(JSON.parse(newState));
     this.currentHistoryIndex++;
-    
-    // Update undo/redo states
+
     this.canUndo = this.currentHistoryIndex > 0;
     this.canRedo = false;
   }
@@ -239,7 +245,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
       rotation: 0,
       ...dimensions
     };
-    
+
     this.tables.push(table);
     this.saveToHistory();
     this.draw();
@@ -251,11 +257,11 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     const { width, height } = table;
     const chairSize = 24;
     const chairMargin = 5;
-    
+
     this.ctx.save();
-    this.ctx.translate(x + width/2, y + height/2);
+    this.ctx.translate(x + width / 2, y + height / 2);
     this.ctx.rotate(table.rotation);
-    this.ctx.translate(-width/2, -height/2);
+    this.ctx.translate(-width / 2, -height / 2);
 
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(
@@ -264,7 +270,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
       width - (chairSize + chairMargin) * 2,
       height - (chairSize + chairMargin) * 2
     );
-    
+
     this.ctx.strokeStyle = '#4CAF50';
     this.ctx.lineWidth = 2;
     this.ctx.strokeRect(
@@ -276,24 +282,24 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
 
     const chairsPerSide = Math.ceil(table.capacity / 2);
     const chairSpacing = (width - (chairSize + chairMargin) * 2) / (chairsPerSide + 1);
-    
+
     for (let i = 0; i < chairsPerSide; i++) {
-      const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize/2;
+      const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize / 2;
       this.ctx.save();
-      this.ctx.translate(chairX + chairSize/2, chairSize/2);
+      this.ctx.translate(chairX + chairSize / 2, chairSize / 2);
       this.ctx.rotate(Math.PI);
       this.ctx.drawImage(
         this.chairImage,
-        -chairSize/2,
-        -chairSize/2,
+        -chairSize / 2,
+        -chairSize / 2,
         chairSize,
         chairSize
       );
       this.ctx.restore();
     }
-    
+
     for (let i = 0; i < table.capacity - chairsPerSide; i++) {
-      const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize/2;
+      const chairX = chairSize + chairMargin + chairSpacing * (i + 1) - chairSize / 2;
       this.ctx.drawImage(
         this.chairImage,
         chairX,
@@ -302,7 +308,7 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
         chairSize
       );
     }
-    
+
     this.ctx.restore();
 
     this.drawRotateHandle(table);
@@ -322,20 +328,20 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     const rect = this.canvasRef.nativeElement.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    
+
     for (const table of this.tables) {
       if (this.isOverRotateHandle(table, x, y)) {
         this.selectedTable = table;
         this.isRotating = true;
-        const centerX = table.position.x + table.width/2;
-        const centerY = table.position.y + table.height/2;
+        const centerX = table.position.x + table.width / 2;
+        const centerY = table.position.y + table.height / 2;
         this.rotationStart = Math.atan2(y - centerY, x - centerX) - table.rotation;
         this.draw();
         return;
       }
     }
 
-    const clickedTable = this.tables.find(table => 
+    const clickedTable = this.tables.find(table =>
       x >= table.position.x &&
       x <= table.position.x + table.width &&
       y >= table.position.y &&
@@ -363,8 +369,8 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     const y = event.clientY - rect.top;
 
     if (this.isRotating) {
-      const centerX = this.selectedTable.position.x + this.selectedTable.width/2;
-      const centerY = this.selectedTable.position.y + this.selectedTable.height/2;
+      const centerX = this.selectedTable.position.x + this.selectedTable.width / 2;
+      const centerY = this.selectedTable.position.y + this.selectedTable.height / 2;
       const angle = Math.atan2(y - centerY, x - centerX);
       this.selectedTable.rotation = angle - this.rotationStart;
       this.draw();
@@ -375,9 +381,9 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
       this.selectedTable.position.x = x - this.dragStartX;
       this.selectedTable.position.y = y - this.dragStartY;
 
-      this.selectedTable.position.x = Math.max(0, Math.min(this.selectedTable.position.x, 
+      this.selectedTable.position.x = Math.max(0, Math.min(this.selectedTable.position.x,
         this.canvasRef.nativeElement.width - this.selectedTable.width));
-      this.selectedTable.position.y = Math.max(0, Math.min(this.selectedTable.position.y, 
+      this.selectedTable.position.y = Math.max(0, Math.min(this.selectedTable.position.y,
         this.canvasRef.nativeElement.height - this.selectedTable.height));
 
       this.draw();
