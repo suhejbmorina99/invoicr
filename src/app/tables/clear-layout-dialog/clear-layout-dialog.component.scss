@@ -1,0 +1,65 @@
+:host {
+    display: block;
+    height: 260px;
+    padding: 10px;
+  }
+  
+  [mat-dialog-title] {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 24px;
+  }
+  
+  [mat-dialog-content] {
+    margin-bottom: 24px;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  [mat-dialog-actions] {
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 12px;
+    padding: 0 24px 0 0;
+    margin: 0;
+  
+    button {
+      min-width: 100px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+  
+      &[color="primary"] {
+        background-color: #4CAF50;
+        color: white;
+  
+        &:hover {
+          background-color: darken(#4CAF50, 5%);
+        }
+      }
+  
+      &:not([color="primary"]) {
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
+      }
+    }
+  }
+    
+  .success-snackbar {
+      &.mat-mdc-snack-bar-container {
+        --mdc-snackbar-container-color: transparent;
+        --mat-mdc-snack-bar-button-color: #fff;
+        --mdc-snackbar-supporting-text-color: #fff;
+      }
+    
+      .mdc-snackbar__surface {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+    }

@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SaveLayoutDialogComponent } from './save-layout-dialog/save-layout-dialog.component';
 import { SaveSuccessSnackbarComponent } from '../shared/save-success-snackbar/save-success-snackbar.component';
+import { ClearLayoutDialogComponent } from './clear-layout-dialog/clear-layout-dialog.component';
 
 interface Position {
   x: number;
@@ -422,6 +423,15 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private showClearSuccess(): void {
+    // this.snackBar.openFromComponent(ClearSuccessSnackbarComponent, {
+    //   duration: 3000,
+    //   horizontalPosition: 'center',
+    //   verticalPosition: 'bottom',
+    //   panelClass: 'success-snackbar'
+    // });
+  }
+
   loadLayout() {
     const savedLayout = localStorage.getItem('tableLayout');
     if (savedLayout) {
@@ -432,8 +442,23 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   }
 
   clearLayout() {
-    this.tables = [];
-    this.saveToHistory();
-    this.draw();
+    const dialogRef = this.dialog.open(ClearLayoutDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        localStorage.removeItem('tableLayout');
+        this.showClearSuccess();
+        this.tables = [];
+      }
+    });
+
+    this.canUndo = false;
+    this.canRedo = false;
+
+    // this.tables = [];
+    // this.saveToHistory();
+    // this.draw();
   }
 }
