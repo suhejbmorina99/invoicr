@@ -454,11 +454,11 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
         this.saveToHistory();
         this.draw();
         this.showClearSuccess();
+
+        this.canRedo = false;
+        this.canUndo = false;
       }
     });
-
-    this.canUndo = false;
-    this.canRedo = false;
   }
 
 }
