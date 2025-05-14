@@ -490,13 +490,13 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
       if (result) {
         localStorage.removeItem('tableLayout');
         this.tables = [];
-        this.saveToHistory();
+        // this.saveToHistory();
         this.draw();
         this.showClearSuccess();
-
-        this.canRedo = false;
-        this.canUndo = false;
       }
     });
+
+    this.canRedo = false;
+    this.canUndo = false;
   }
 }
