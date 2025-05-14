@@ -275,6 +275,8 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
     this.tables.push(table);
     this.saveToHistory();
     this.draw();
+    this.canSave = true;
+    this.canClear = true;
   }
 
   private drawTable(table: Table) {
