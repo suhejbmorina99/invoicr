@@ -27,15 +27,15 @@
           border-radius: 50%;
 
           &.available {
-            background-color: #4CAF50;
+            background-color: #4caf50;
           }
 
           &.reserved {
-            background-color: #2196F3;
+            background-color: #2196f3;
           }
 
           &.occupied {
-            background-color: #FF5722;
+            background-color: #ff5722;
           }
         }
       }
@@ -54,7 +54,7 @@
         transition: all 0.3s ease;
 
         &.active {
-          background-color: #26A69A;
+          background-color: #26a69a;
           color: white;
         }
 
@@ -85,23 +85,26 @@
       transition: all 0.3s ease;
 
       &.available {
-        border: 2px solid #4CAF50;
-        .table-svg, .chair {
-          color: #4CAF50;
+        border: 2px solid #4caf50;
+        .table-svg,
+        .chair {
+          color: #4caf50;
         }
       }
 
       &.reserved {
-        border: 2px solid #2196F3;
-        .table-svg, .chair {
-          color: #2196F3;
+        border: 2px solid #2196f3;
+        .table-svg,
+        .chair {
+          color: #2196f3;
         }
       }
 
       &.occupied {
-        border: 2px solid #FF5722;
-        .table-svg, .chair {
-          color: #FF5722;
+        border: 2px solid #ff5722;
+        .table-svg,
+        .chair {
+          color: #ff5722;
         }
       }
 
@@ -199,7 +202,7 @@
   .controls {
     width: 250px;
     flex-shrink: 0;
-    
+
     .table-form {
       background-color: #f5f5f5;
       padding: 20px;
@@ -229,7 +232,7 @@
 
           &:focus {
             outline: none;
-            border-color: #26A69A;
+            border-color: #26a69a;
           }
         }
       }
@@ -237,7 +240,7 @@
       button {
         width: 100%;
         padding: 10px;
-        background-color: #26A69A;
+        background-color: #26a69a;
         color: white;
         border: none;
         border-radius: 4px;
@@ -316,13 +319,13 @@
   transition: all 0.3s ease;
 
   &.available {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     border-color: #45a049;
   }
 
   &.reserved {
-    background-color: #FFC107;
-    border-color: #FFA000;
+    background-color: #ffc107;
+    border-color: #ffa000;
   }
 
   &.occupied {
@@ -359,7 +362,7 @@
     margin: 0 10px;
     padding: 10px 20px;
     font-size: 1em;
-    background-color: #2196F3;
+    background-color: #2196f3;
     color: white;
     border: none;
     border-radius: 4px;
@@ -367,7 +370,17 @@
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: #1976D2;
+      background-color: #1976d2;
+    }
+  }
+  .layout-buttons {
+    &:hover:not(.disabled) {
+      background-color: #e0e0e0;
+    }
+
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed !important;
     }
   }
 
@@ -375,7 +388,7 @@
     display: flex;
     justify-content: space-evenly;
     margin-top: 10px;
-    
+
     .do-buttons {
       margin: 0 10px;
       padding: 2px 20px;

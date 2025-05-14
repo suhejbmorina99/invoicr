@@ -62,6 +62,8 @@ export class TablesComponent implements AfterViewInit, OnDestroy {
   private currentHistoryIndex = -1;
   public canUndo = false;
   public canRedo = false;
+  public canSave = false;
+  public canClear = false;
 
   private resizeObserver: ResizeObserver;
 

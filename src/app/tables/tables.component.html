@@ -4,29 +4,43 @@
       <h3>Add New Table</h3>
       <div class="form-group">
         <label for="capacity">Number of Seats (1-8):</label>
-        <input type="number" 
-               id="capacity" 
-               [(ngModel)]="newTable.capacity" 
-               min="1" 
-               max="8" 
-               step="1"
-               (keypress)="validateKeyPress($event)"
-               (input)="validateCapacity($event)">
+        <input
+          type="number"
+          id="capacity"
+          [(ngModel)]="newTable.capacity"
+          min="1"
+          max="8"
+          step="1"
+          (keypress)="validateKeyPress($event)"
+          (input)="validateCapacity($event)"
+        />
       </div>
       <button (click)="addTable()">Add Table</button>
     </div>
-    
+
     <div class="layout-controls">
-      <button (click)="saveLayout()">Save Layout</button>
-      <button (click)="clearLayout()">Clear All</button>
+      <button
+        class="layout-buttons"
+        [class.disabled]="!canSave"
+        (click)="saveLayout()"
+      >
+        Save Layout
+      </button>
+      <button
+        class="layout-buttons"
+        [class.disabled]="!canClear"
+        (click)="clearLayout()"
+      >
+        Clear All
+      </button>
     </div>
 
     <div class="redo-undo-controls">
       <div class="do-buttons" [class.disabled]="!canUndo" (click)="undo()">
-        <img src="../../assets/icons/undo.png" alt="undo">
+        <img src="../../assets/icons/undo.png" alt="undo" />
       </div>
       <div class="do-buttons" [class.disabled]="!canRedo" (click)="redo()">
-        <img src="../../assets/icons/redo.png" alt="redo">
+        <img src="../../assets/icons/redo.png" alt="redo" />
       </div>
     </div>
   </div>
