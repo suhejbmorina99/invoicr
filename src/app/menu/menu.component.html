@@ -1,1 +1,26 @@
-<p>menu works!</p>
+<div class="menu-container">
+  <h2 mat-dialog-title>Menu</h2>
+  <div mat-dialog-content class="menu-content">
+    <div *ngFor="let category of getCategoryKeys()" class="category-section">
+      <h3>{{ category }}</h3>
+      <div class="menu-items">
+        <div *ngFor="let item of menu[category]" class="menu-item">
+          <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+          <div class="quantity-controls">
+            <button mat-icon-button (click)="removeFromOrder(item)">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <span>{{ order[item.id] || 0 }}</span>
+            <button mat-icon-button (click)="addToOrder(item)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onSave()">Save Order</button>
+  </div>
+</div>

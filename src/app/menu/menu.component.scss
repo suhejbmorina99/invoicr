@@ -1,0 +1,32 @@
+.menu-container {
+    width: 500px;
+    padding: 20px;
+  }
+  
+  .menu-content {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  .category-section {
+    margin-bottom: 20px;
+  }
+  
+  .menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
